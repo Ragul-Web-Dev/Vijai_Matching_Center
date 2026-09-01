@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f8f6fc;
+    color: #2e1065;
+  }
+
+  h1, h2, h3, .font-serif-heading {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+/* Light Lavender & Soft White Card & Box Utilities */
+.glass-panel {
+  background: #ffffff;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid #c084fc;
+  box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.12);
+}
+
+.glass-card {
+  background: #ffffff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid #d8b4fe;
+  box-shadow: 0 6px 20px -2px rgba(109, 40, 217, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: #faf5ff;
+  border-color: #a855f7;
+  box-shadow: 0 12px 28px -4px rgba(124, 58, 237, 0.2);
+}
+
+.glass-card-burgundy {
+  background: #f3e8ff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid #c084fc;
+  box-shadow: 0 6px 20px -2px rgba(109, 40, 217, 0.1);
+}
+
+/* Glowing accents */
+.amber-glow, .emerald-glow, .burgundy-glow {
+  box-shadow: 0 8px 30px -5px rgba(139, 92, 246, 0.25);
+}
+

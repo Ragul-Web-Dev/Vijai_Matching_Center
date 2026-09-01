@@ -1,0 +1,11 @@
+{
+  "name": "vijai-tailoring-root",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:server": "cd server && node server.js",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "npx --yes concurrently \"npm run dev:server\" \"npm run dev:client\""
+  }
+}
