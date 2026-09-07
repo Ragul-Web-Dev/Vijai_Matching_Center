@@ -9,6 +9,8 @@ const catalogItems = [
     id: 'CAT-01',
     title: 'Peacock Zari Back Neck Blouse',
     category: 'Blouse',
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
+    alt: 'Designer blouse back neck embroidery with dual peacock motifs, gold zari, and intricate resham threadwork reference',
     stitchCount: '48,500 stitches',
     colors: 'Gold, Emerald, Metallic Ruby',
     tag: 'Bridal Blouse',
@@ -19,6 +21,8 @@ const catalogItems = [
     id: 'CAT-02',
     title: 'Royal Baraat Bridal Lehenga Border',
     category: 'Bridal',
+    image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80',
+    alt: 'Heavy bridal lehenga border with traditional baraat procession, elephant, and doli motifs in antique gold embroidery reference',
     stitchCount: '124,000 stitches',
     colors: 'Pure Antique Zari, Resham Red',
     tag: 'Heavy Bridal',
@@ -29,6 +33,8 @@ const catalogItems = [
     id: 'CAT-03',
     title: 'Kashmiri Floral Salwar Neckline',
     category: 'Salwar/Chudi',
+    image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80',
+    alt: 'Kashmiri-style salwar kameez neckline with dense floral and vine embroidery reference on silk fabric',
     stitchCount: '28,000 stitches',
     colors: 'Multi-Resham Silk Threads',
     tag: 'Ethnic Kurti',
@@ -39,6 +45,8 @@ const catalogItems = [
     id: 'CAT-04',
     title: 'Scalloped Temple Border Silk Saree',
     category: 'Saree Border',
+    image: 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&q=80',
+    alt: 'Silk saree scalloped temple border with gold zari and maroon resham threadwork reference',
     stitchCount: '86,200 stitches',
     colors: 'Rich Gold Zari & Maroon',
     tag: 'Saree Work',
@@ -49,6 +57,8 @@ const catalogItems = [
     id: 'CAT-05',
     title: 'Precision Corporate Crest Logo',
     category: 'Logos & Tees',
+    image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=80',
+    alt: 'High-density precision embroidered corporate company crest emblem on polo shirt garment reference',
     stitchCount: '12,400 stitches',
     colors: 'Navy Blue, Gold Thread, White',
     tag: 'Uniform Logo',
@@ -59,6 +69,8 @@ const catalogItems = [
     id: 'CAT-06',
     title: 'Sacred Ganesha & Lotus Motif',
     category: 'Custom Motifs',
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
+    alt: 'Detailed sacred Ganesha and lotus embroidery centerpiece motif in gold, coral, and green threads reference',
     stitchCount: '34,000 stitches',
     colors: 'Golden Yellow, Coral, Green',
     tag: 'Bespoke Motif',
@@ -67,7 +79,7 @@ const catalogItems = [
   }
 ];
 
-export default function CatalogGallery({ scrollToSection }) {
+export default function CatalogGallery({ scrollToSection, onSelectDesign }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedDesign, setSelectedDesign] = useState(null);
 
@@ -75,20 +87,29 @@ export default function CatalogGallery({ scrollToSection }) {
     ? catalogItems
     : catalogItems.filter(item => item.category === activeCategory);
 
+  const handleRequestDesign = (item) => {
+    if (onSelectDesign) {
+      onSelectDesign(item);
+    }
+    if (scrollToSection) {
+      scrollToSection('whatsapp');
+    }
+  };
+
   return (
     <section id="catalog" className="py-20 relative bg-transparent">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-700 text-xs font-semibold tracking-wider uppercase mb-3">
-            <Grid className="w-3.5 h-3.5" />
-            <span>Studio Showcase</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold tracking-wider uppercase mb-3">
+            <Grid className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Studio Showcase & Pattern Gallery</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold font-serif-heading text-slate-900 mb-4">
-            Design Catalog & <span className="text-purple-600 italic">Work Gallery</span>
+            Design Catalog & <span className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-amber-600 bg-clip-text text-transparent italic">Work Gallery</span>
           </h2>
           <p className="text-slate-600 max-w-2xl mx-auto text-sm md:text-base font-light">
-            Click any pattern card to open full design specifications and WhatsApp order popup.
+            Click any pattern card to view full specifications or request custom computerized embroidery.
           </p>
         </div>
 
@@ -100,8 +121,8 @@ export default function CatalogGallery({ scrollToSection }) {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
                 activeCategory === cat
-                  ? 'bg-purple-600 text-white font-bold shadow-md shadow-purple-200'
-                  : 'glass-card text-slate-600 hover:text-purple-700 border border-purple-100'
+                  ? 'bg-emerald-700 text-white font-bold shadow-md shadow-emerald-200'
+                  : 'glass-card text-slate-600 hover:text-emerald-700 border border-emerald-100 bg-white/70'
               }`}
             >
               {cat}
@@ -117,34 +138,42 @@ export default function CatalogGallery({ scrollToSection }) {
               whileHover={{ y: -8, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setSelectedDesign(item)}
-              className="glass-card rounded-3xl p-6 border border-purple-100 hover:border-purple-400 transition-all flex flex-col justify-between group cursor-pointer bg-white/80 hover:shadow-xl"
+              className="glass-card rounded-3xl p-6 border border-emerald-100 hover:border-emerald-300 transition-all flex flex-col justify-between group cursor-pointer bg-white/90 hover:shadow-xl"
             >
               <div>
                 {/* Header info bar */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full border border-purple-200">
+                  <span className="text-[11px] font-mono font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                     {item.code}
                   </span>
                   <span className="text-[11px] text-slate-500 font-medium">{item.tag}</span>
                 </div>
 
-                {/* Decorative Visual Embroidery Pattern Placeholder */}
-                <div className="h-40 rounded-2xl bg-gradient-to-tr from-purple-100 via-purple-50 to-indigo-100 border border-purple-200 p-4 relative overflow-hidden flex flex-col justify-between mb-5 group-hover:border-purple-300 transition-colors">
-                  <div className="absolute -right-6 -bottom-6 w-28 h-28 bg-purple-300/20 rounded-full blur-xl" />
-                  <div className="flex justify-between items-start">
-                    <span className="text-[10px] text-purple-900 font-mono tracking-wider bg-white/80 px-2 py-0.5 rounded backdrop-blur shadow-sm">
+                {/* Real Embroidery Photography Card with Badge */}
+                <div className="h-48 rounded-2xl border border-emerald-100 relative overflow-hidden flex flex-col justify-between mb-5 bg-slate-900 group-hover:border-emerald-300 transition-colors shadow-inner">
+                  <img
+                    src={item.image}
+                    alt={item.alt || item.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-90"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/40" />
+
+                  <div className="relative z-10 p-3 flex justify-between items-start">
+                    <span className="text-[10px] text-slate-900 font-mono font-bold bg-white/90 px-2.5 py-0.5 rounded-full shadow-sm backdrop-blur">
                       {item.stitchCount}
                     </span>
-                    <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
+                    <div className="w-6 h-6 rounded-full bg-emerald-600/90 text-white flex items-center justify-center shadow">
+                      <Sparkles className="w-3.5 h-3.5" />
+                    </div>
                   </div>
                   
-                  <div className="relative z-10">
-                    <p className="text-xs text-purple-950 font-mono">Palette: {item.colors}</p>
-                    <p className="text-[10px] text-purple-700 font-bold uppercase tracking-widest mt-0.5">Machine-Ready Pattern</p>
+                  <div className="relative z-10 p-3">
+                    <p className="text-[11px] text-amber-300 font-mono font-medium truncate">Palette: {item.colors}</p>
+                    <p className="text-[9px] text-emerald-300 font-bold uppercase tracking-widest mt-0.5">12-Needle Production Ready</p>
                   </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-slate-900 font-serif-heading mb-2 group-hover:text-purple-600 transition-colors">
+                <h3 className="text-lg font-bold text-slate-900 font-serif-heading mb-2 group-hover:text-emerald-700 transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed font-light mb-6">
@@ -152,22 +181,26 @@ export default function CatalogGallery({ scrollToSection }) {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 pt-4 border-t border-purple-100">
+              <div className="flex items-center gap-2 pt-4 border-t border-emerald-100">
                 <button
-                  className="flex-1 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 text-xs font-semibold flex items-center justify-center gap-1.5 border border-purple-200 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedDesign(item);
+                  }}
+                  className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-semibold flex items-center justify-center border border-emerald-200 transition-all"
+                  title="View Details"
                 >
-                  <Eye className="w-3.5 h-3.5 text-purple-600" />
-                  <span>View Details Popup</span>
+                  <Eye className="w-4 h-4 text-emerald-700" />
                 </button>
 
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    scrollToSection('whatsapp');
+                    handleRequestDesign(item);
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shadow-md shadow-purple-200"
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5"
                 >
-                  Order
+                  <span>Enquire on WhatsApp</span>
                 </button>
               </div>
             </motion.div>
@@ -189,10 +222,10 @@ export default function CatalogGallery({ scrollToSection }) {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="glass-card max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 rounded-3xl border border-purple-200 bg-white relative shadow-2xl"
+                className="glass-card max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 rounded-3xl border border-emerald-200 bg-white relative shadow-2xl"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono text-purple-700 font-bold px-3 py-1 rounded-full bg-purple-100 border border-purple-200">
+                  <span className="text-xs font-mono text-emerald-800 font-bold px-3 py-1 rounded-full bg-emerald-100 border border-emerald-200">
                     {selectedDesign.code}
                   </span>
                   <button
@@ -203,38 +236,50 @@ export default function CatalogGallery({ scrollToSection }) {
                   </button>
                 </div>
 
+                {/* Modal Work Image */}
+                {selectedDesign.image && (
+                  <div className="h-52 rounded-2xl overflow-hidden mb-4 border border-emerald-100 relative shadow-sm">
+                    <img
+                      src={selectedDesign.image}
+                      alt={selectedDesign.alt || selectedDesign.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
                 <h3 className="text-2xl font-bold font-serif-heading text-slate-900 mb-2">
                   {selectedDesign.title}
                 </h3>
                 <p className="text-xs text-slate-600 mb-6 font-light">{selectedDesign.description}</p>
 
-                <div className="space-y-3 bg-purple-50/70 p-4 rounded-2xl border border-purple-100 mb-6 text-xs text-slate-700 font-mono">
+                <div className="space-y-3 bg-emerald-50/60 p-4 rounded-2xl border border-emerald-100 mb-6 text-xs text-slate-700 font-mono">
                   <div className="flex justify-between">
                     <span className="text-slate-500">Category:</span>
-                    <span className="font-bold text-purple-900">{selectedDesign.category}</span>
+                    <span className="font-bold text-emerald-900">{selectedDesign.category}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Stitch Density:</span>
-                    <span className="font-bold text-purple-900">{selectedDesign.stitchCount}</span>
+                    <span className="font-bold text-emerald-900">{selectedDesign.stitchCount}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Thread Palette:</span>
-                    <span className="font-bold text-purple-900">{selectedDesign.colors}</span>
+                    <span className="font-bold text-emerald-900">{selectedDesign.colors}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Recommended Machine:</span>
-                    <span className="font-bold text-purple-700">C Body 6G Pro (12 Needles)</span>
+                    <span className="font-bold text-emerald-700">C Body 6G Pro (12 Needles)</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => {
+                    const item = selectedDesign;
                     setSelectedDesign(null);
-                    scrollToSection('whatsapp');
+                    handleRequestDesign(item);
                   }}
-                  className="w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm shadow-md shadow-purple-200 flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-sm shadow-md flex items-center justify-center gap-2"
                 >
-                  <span>Order This Design via WhatsApp</span>
+                  <span>Enquire on WhatsApp / Request This Design</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </motion.div>

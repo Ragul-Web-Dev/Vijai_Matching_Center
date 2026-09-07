@@ -1,24 +1,63 @@
-import { sendWhatsAppNotification, generateWhatsAppLink } from '../services/whatsappService.js';
+import { loadData, saveData } from '../store.js';
 
 export const handleSendWhatsApp = async (req, res) => {
   try {
-    const { name, service, message, phone } = req.body;
+    const { name, phone, service, message, image } = req.body;
 
-    const formattedMessage = `🧵 *Vijai Tailoring Inquiry*\n\n` +
-      `*Name:* ${name || 'Valued Customer'}\n` +
-      `*Service Required:* ${service || 'Custom Stitching'}\n` +
-      `*Details:* ${message || 'No additional details'}\n\n` +
-      `Sent via Vijai Tailoring Web App`;
+    // Validate inputs
+    if (!name || !name.trim()) {
+      return res.status(400).json({ success: false, message: 'Customer name is required' });
+    }
 
-    const recipientPhone = phone || process.env.WHATSAPP_PHONE_NUMBER || '919876543210';
-    const result = await sendWhatsAppNotification({ recipient: recipientPhone, message: formattedMessage });
+    const businessPhone = process.env.WHATSAPP_PHONE_NUMBER || '919790449627';
+    const refId = 'VE-' + Math.floor(100000 + Math.random() * 900000);
 
-    return res.status(200).json({
+    // Save enquiry to store
+    const store = loadData();
+    const newEnquiry = {
+      id: refId,
+      refId: refId,
+      name: name.trim(),
+      phone: phone ? phone.trim() : 'Not provided',
+      service: service || 'Custom Blouse Embroidery',
+      message: message ? message.trim() : '',
+      image: image || null,
+      status: 'New',
+      createdAt: new Date().toISOString()
+    };
+
+    store.enquiries = [newEnquiry, ...(store.enquiries || [])];
+    saveData(store);
+
+    // Pre-filled WhatsApp message format
+    let formattedMessage = `🧵 *Vijay Embroidery - Custom Order Enquiry*\n\n`;
+    formattedMessage += `📌 *Enquiry ID:* #${refId}\n`;
+    formattedMessage += `👤 *Customer Name:* ${newEnquiry.name}\n`;
+    formattedMessage += `📞 *Phone:* ${newEnquiry.phone}\n`;
+    formattedMessage += `🧵 *Service / Garment:* ${newEnquiry.service}\n`;
+    
+    if (newEnquiry.message) {
+      formattedMessage += `📝 *Requirements / Location:* ${newEnquiry.message}\n`;
+    }
+
+    if (newEnquiry.image) {
+      formattedMessage += `🖼️ *Reference Image:* Attached in Vijay Studio System (Ref #${refId}). Customer can also share the photo here in this chat.\n`;
+    }
+
+    formattedMessage += `\n_Sent via Vijay Embroidery Studio Official Web App_`;
+
+    const encodedMessage = encodeURIComponent(formattedMessage);
+    const whatsappUrl = `https://wa.me/${businessPhone}?text=${encodedMessage}`;
+
+    return res.status(201).json({
       success: true,
-      data: result,
-      whatsappUrl: generateWhatsAppLink(recipientPhone, formattedMessage),
+      message: 'Enquiry recorded successfully',
+      enquiry: newEnquiry,
+      refId: refId,
+      whatsappUrl: whatsappUrl
     });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    console.error('[WhatsApp Enquiry Error]:', error);
+    return res.status(500).json({ success: false, message: error.message });
   }
 };

@@ -294,39 +294,7 @@ export default function InteractiveTailoringBackground() {
             );
           })}
 
-          {/* Main Glowing Sewing Needle Cursor */}
-          <motion.div
-            className={`absolute w-12 h-12 rounded-full border-2 border-amber-400 bg-purple-600/30 backdrop-blur-[3px] flex items-center justify-center pointer-events-none shadow-[0_0_30px_rgba(217,119,6,0.8)] transition-transform duration-100 ${
-              isClicking ? 'scale-125 border-pink-500 bg-purple-700/50' : 'scale-100'
-            }`}
-            animate={{
-              x: mousePosition.x - 24,
-              y: mousePosition.y - 24,
-            }}
-            transition={{
-              type: 'spring',
-              damping: 22,
-              stiffness: 400,
-              mass: 0.25,
-            }}
-          >
-            <span className="text-xl select-none animate-pulse">🪡</span>
-          </motion.div>
 
-          {/* Expanding Pulsing Thread Glow Ring */}
-          <motion.div
-            className="absolute w-20 h-20 rounded-full border border-purple-400/40 bg-purple-400/10 pointer-events-none"
-            animate={{
-              x: mousePosition.x - 40,
-              y: mousePosition.y - 40,
-              scale: isClicking ? [1, 1.4, 1] : [1, 1.15, 1],
-            }}
-            transition={{
-              scale: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
-              x: { type: 'spring', damping: 30, stiffness: 200 },
-              y: { type: 'spring', damping: 30, stiffness: 200 },
-            }}
-          />
 
           {/* Click Sparkle Explosion Particles */}
           {clickSparks.map((spark) => (
