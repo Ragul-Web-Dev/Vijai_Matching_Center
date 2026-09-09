@@ -27,9 +27,11 @@ import {
   AlertCircle,
   Search,
   Filter,
-  ArrowRight
+  ArrowRight,
+  Receipt
 } from 'lucide-react';
 import axios from 'axios';
+import QuotationGenerator from './QuotationGenerator';
 
 export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard', onNavigate }) {
   const [token, setToken] = useState(localStorage.getItem('vijay_admin_token') || '');
@@ -42,7 +44,14 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
   const [submittingLogin, setSubmittingLogin] = useState(false);
 
   // Dashboard state
-  const [activeTab, setActiveTab] = useState('enquiries'); // 'enquiries' | 'feedbacks' | 'overview'
+  const [activeTab, setActiveTab] = useState(initialView === 'quotations' ? 'quotations' : 'enquiries'); // 'enquiries' | 'feedbacks' | 'quotations'
+
+  useEffect(() => {
+    if (initialView === 'quotations') {
+      setActiveTab('quotations');
+    }
+  }, [initialView]);
+
   const [stats, setStats] = useState({
     total: 0,
     new: 0,
@@ -176,16 +185,10 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
         setLoginError(res.data.message || 'Login failed. Please verify password.');
       }
     } catch (err) {
-      // Offline fallback check
-      if (loginForm.password === 'VijayAdmin@2026') {
-        const dummyToken = 'offline-session-token-' + Date.now();
-        setToken(dummyToken);
-        localStorage.setItem('vijay_admin_token', dummyToken);
-        localStorage.setItem('vijay_admin_logged_in', 'true');
-        setIsAuthenticated(true);
-        if (onNavigate) onNavigate('/admin/dashboard');
+      if (err.response && err.response.data && err.response.data.message) {
+        setLoginError(err.response.data.message);
       } else {
-        setLoginError('Invalid password or backend unreachable. Try: VijayAdmin@2026');
+        setLoginError('Authentication error. Please verify administrative password.');
       }
     } finally {
       setSubmittingLogin(false);
@@ -193,12 +196,20 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
   };
 
   // Handle Logout
-  const handleLogout = () => {
-    setToken('');
-    setIsAuthenticated(false);
-    localStorage.removeItem('vijay_admin_token');
-    localStorage.removeItem('vijay_admin_logged_in');
-    if (onNavigate) onNavigate('/admin/login');
+  const handleLogout = async () => {
+    try {
+      if (token) {
+        await axios.post('/api/admin/logout', {}, getAuthHeaders());
+      }
+    } catch (err) {
+      // Ignore network cleanup errors
+    } finally {
+      setToken('');
+      setIsAuthenticated(false);
+      localStorage.removeItem('vijay_admin_token');
+      localStorage.removeItem('vijay_admin_logged_in');
+      if (onNavigate) onNavigate('/admin/login');
+    }
   };
 
   // Handle Status Update for Enquiry (New -> Contacted -> Confirmed -> Completed)
@@ -368,14 +379,17 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
         {/* Top Header Bar */}
         <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 px-6 py-4 text-white flex items-center justify-between border-b border-emerald-800/80 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-700/60 border border-emerald-500/40 flex items-center justify-center shadow-inner">
-              <ShieldCheck className="w-6 h-6 text-amber-400" />
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-emerald-500/50 flex items-center justify-center bg-slate-950 shadow-md">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h2 className="text-base md:text-lg font-bold flex items-center gap-2 font-serif-heading">
-                Vijay Embroidery Studio <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">Secure Admin Panel</span>
+              <h2 className="text-base md:text-lg font-bold flex items-center gap-2 font-brand-title">
+                VIJAI <span className="text-xs font-brand-luxury italic text-emerald-400 font-light">EMBROIDERY</span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                  🔒 Secure Admin Portal
+                </span>
               </h2>
-              <p className="text-[11px] text-emerald-300/80 font-mono">12-Needle Machinery Operations & Order Dispatch Log</p>
+              <p className="text-[10.5px] text-emerald-300/80 font-mono">12-Needle Machinery Operations, Customer Enquiries & Verified Reviews</p>
             </div>
           </div>
 
@@ -383,7 +397,8 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
             {isAuthenticated && (
               <button
                 onClick={handleLogout}
-                className="px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/80 text-rose-200 border border-rose-700/50 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+                className="px-3.5 py-1.5 rounded-xl bg-rose-950/70 hover:bg-rose-900 text-rose-200 border border-rose-700/50 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm hover:scale-105"
+                title="Securely Sign Out and Invalidate Token"
               >
                 <LogOut className="w-3.5 h-3.5 text-rose-400" />
                 <span className="hidden sm:inline">Sign Out</span>
@@ -392,7 +407,7 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
 
             <button
               onClick={onClose}
-              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-emerald-200 flex items-center justify-center transition-colors"
+              className="p-1.5 rounded-xl bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -403,7 +418,7 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
         {authLoading ? (
           <div className="p-16 text-center text-slate-500 flex flex-col items-center justify-center gap-3">
             <RefreshCw className="w-8 h-8 text-emerald-600 animate-spin" />
-            <span className="text-xs font-mono">Verifying administrative credentials...</span>
+            <span className="text-xs font-mono">Verifying administrative security session...</span>
           </div>
         ) : !isAuthenticated ? (
           /* ============================================================ */
@@ -413,12 +428,17 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
             <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-emerald-200/90 shadow-xl space-y-6">
               <div className="text-center space-y-2">
                 <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto border border-emerald-300 shadow-sm">
-                  <Lock className="w-7 h-7" />
+                  <Lock className="w-7 h-7 text-emerald-700" />
                 </div>
-                <h3 className="text-2xl font-bold font-serif-heading text-slate-900">Admin Sign In</h3>
+                <h3 className="text-2xl font-bold font-brand-title text-slate-900">Admin Sign In</h3>
                 <p className="text-xs text-slate-600 font-light">
-                  Protected administrative area for managing WhatsApp enquiries and verified reviews.
+                  Protected administrative portal for managing customer WhatsApp orders and media reviews.
                 </p>
+
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10.5px] font-mono text-emerald-800">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Brute-force Protected • Max 5 Attempts</span>
+                </div>
               </div>
 
               {loginError && (
@@ -529,6 +549,20 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
                   }`}
                 >
                   <Star className="w-4 h-4" /> Feedbacks & Media ({feedbacks.length})
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveTab('quotations');
+                    if (onNavigate) onNavigate('/admin/quotations');
+                  }}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                    activeTab === 'quotations'
+                      ? 'bg-emerald-700 text-white shadow-md'
+                      : 'text-slate-600 hover:bg-emerald-50'
+                  }`}
+                >
+                  <Receipt className="w-4 h-4" /> Quotations
                 </button>
               </div>
 
@@ -792,6 +826,11 @@ export default function AdminPanel({ isOpen, onClose, initialView = 'dashboard',
                     ))}
                   </div>
                 </div>
+              )}
+
+              {/* QUOTATIONS GENERATOR TAB */}
+              {activeTab === 'quotations' && (
+                <QuotationGenerator onNavigate={onNavigate} />
               )}
             </div>
           </div>

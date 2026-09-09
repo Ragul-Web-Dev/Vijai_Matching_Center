@@ -8,7 +8,8 @@ import CatalogGallery from './components/CatalogGallery';
 import CustomerReviews from './components/CustomerReviews';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import AdminPanel from './components/AdminPanel';
-import InteractiveTailoringBackground from './components/InteractiveTailoringBackground';
+import CustomerQuotationView from './components/CustomerQuotationView';
+
 import { 
   Instagram, 
   ShieldCheck, 
@@ -19,13 +20,16 @@ import {
   Sparkles, 
   MessageCircle, 
   ArrowUpRight,
-  Heart
+  Heart,
+  Receipt,
+  FileText
 } from 'lucide-react';
 
 export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [selectedDesign, setSelectedDesign] = useState(null);
+  const [customerQuotationModal, setCustomerQuotationModal] = useState(null);
 
   useEffect(() => {
     // Listen to browser navigation changes
@@ -72,12 +76,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f8f6fc] text-slate-800 font-sans selection:bg-emerald-600 selection:text-white relative">
-      <InteractiveTailoringBackground />
       <Header 
         scrollToSection={scrollToSection} 
         onOpenAdmin={() => {
           navigateTo('/admin/dashboard');
         }} 
+        onOpenQuotation={() => {
+          setCustomerQuotationModal('');
+        }}
       />
       
       <main>
@@ -90,10 +96,23 @@ export default function App() {
         <WhatsAppWidget selectedDesign={selectedDesign} />
       </main>
 
+      {/* Customer Quotation Direct Portal & Modal (/quotation/:id or on-demand) */}
+      {(currentPath.startsWith('/quotation') || customerQuotationModal) && (
+        <CustomerQuotationView 
+          quotationId={currentPath.startsWith('/quotation') ? currentPath.replace('/quotation/', '').replace('/quotation', '') : customerQuotationModal}
+          onClose={() => {
+            setCustomerQuotationModal(null);
+            if (currentPath.startsWith('/quotation')) {
+              navigateTo('/');
+            }
+          }}
+        />
+      )}
+
       {/* Secure Studio Admin Dashboard Modal & Routed View */}
       <AdminPanel 
         isOpen={isAdminOpen} 
-        initialView={currentPath === '/admin/login' ? 'login' : 'dashboard'}
+        initialView={currentPath === '/admin/login' ? 'login' : currentPath === '/admin/quotations' ? 'quotations' : 'dashboard'}
         onNavigate={navigateTo}
         onClose={() => {
           setIsAdminOpen(false);
@@ -117,16 +136,14 @@ export default function App() {
             {/* Column 1: Studio Info & Branding */}
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-amber-400 p-[1.5px] shadow-lg shadow-emerald-900/50">
-                  <div className="w-full h-full rounded-[14px] bg-slate-950 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-amber-400" />
-                  </div>
+                <div className="w-10 h-10 rounded-full overflow-hidden shadow-lg shadow-emerald-900/50 flex items-center justify-center bg-slate-950 border border-emerald-500/40">
+                  <img src="/logo.png" alt="Vijai Embroidery Groups" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black tracking-wider text-white font-serif-heading">
-                    VIJAY <span className="text-emerald-400 italic font-light">EMBROIDERY</span>
+                  <h3 className="font-brand-title text-xl font-black tracking-[0.12em] text-white">
+                    VIJAI <span className="text-emerald-400 italic font-brand-luxury font-light">EMBROIDERY</span>
                   </h3>
-                  <p className="text-[10px] text-emerald-300/70 uppercase font-mono tracking-widest">Studio & Custom Tailoring</p>
+                  <p className="font-brand-modern text-[10px] text-amber-400 font-extrabold uppercase tracking-[0.25em]">Embroidery Groups</p>
                 </div>
               </div>
 
@@ -232,8 +249,8 @@ export default function App() {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection('reviews')} className="hover:text-amber-300 transition-colors">
-                    • Customer Feedbacks
+                  <button onClick={() => setCustomerQuotationModal('')} className="hover:text-amber-300 transition-colors text-amber-300 font-semibold">
+                    • 📄 Download Quotation by ID
                   </button>
                 </li>
               </ul>

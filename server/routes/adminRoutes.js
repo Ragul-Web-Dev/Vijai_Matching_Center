@@ -1,21 +1,57 @@
 import express from 'express';
-import { generateAdminToken, requireAdminAuth } from '../auth.js';
+import { 
+  generateAdminToken, 
+  requireAdminAuth, 
+  checkLoginRateLimit, 
+  recordFailedLogin, 
+  resetLoginAttempts, 
+  timingSafeCompare, 
+  revokeAdminToken,
+  sanitizeInput 
+} from '../auth.js';
 import { loadData, saveData } from '../store.js';
 
 const router = express.Router();
 
-// POST /api/admin/login - Authenticate admin credentials
+// Helper to get client IP
+const getClientIp = (req) => {
+  return req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '127.0.0.1';
+};
+
+// POST /api/admin/login - Authenticate admin credentials with brute force protection
 router.post('/login', (req, res) => {
   try {
+    const clientIp = getClientIp(req);
+    
+    // Check rate limit & lockout status
+    const rateCheck = checkLoginRateLimit(clientIp);
+    if (rateCheck.isLocked) {
+      return res.status(429).json({
+        success: false,
+        message: rateCheck.message,
+        remainingMinutes: rateCheck.remainingMinutes
+      });
+    }
+
     const { username, password } = req.body;
     const validUsername = process.env.ADMIN_USERNAME || 'admin';
     const validPassword = process.env.ADMIN_PASSWORD || 'VijayAdmin@2026';
 
-    if (
-      (username && username.trim().toLowerCase() === validUsername.toLowerCase() && password === validPassword) ||
-      (!username && password === validPassword)
-    ) {
-      const token = generateAdminToken();
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Administrative password is required'
+      });
+    }
+
+    const isPasswordValid = timingSafeCompare(password.trim(), validPassword);
+    const isUserValid = !username || timingSafeCompare(username.trim().toLowerCase(), validUsername.toLowerCase());
+
+    if (isPasswordValid && isUserValid) {
+      // Clear any failed login attempts on success
+      resetLoginAttempts(clientIp);
+
+      const token = generateAdminToken({ username: validUsername });
       return res.status(200).json({
         success: true,
         message: 'Admin authentication successful',
@@ -23,14 +59,39 @@ router.post('/login', (req, res) => {
         admin: {
           username: validUsername,
           role: 'Studio Administrator',
-          name: 'Vijay Embroidery Admin'
+          name: 'Vijai Embroidery Admin',
+          sessionExpiry: '12 Hours'
         }
       });
     }
 
+    // Record failed attempt
+    const attemptResult = recordFailedLogin(clientIp);
+    const errorMsg = attemptResult.isLocked 
+      ? `Too many failed attempts. Admin portal is locked for 15 minutes.`
+      : `Invalid administrative password. ${attemptResult.remainingAttempts} attempt(s) remaining before security lockout.`;
+
     return res.status(401).json({
       success: false,
-      message: 'Invalid administrative password or username'
+      message: errorMsg,
+      remainingAttempts: attemptResult.remainingAttempts
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Authentication service error' });
+  }
+});
+
+// POST /api/admin/logout - Invalidate active session token
+router.post('/logout', (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      revokeAdminToken(token);
+    }
+    return res.status(200).json({
+      success: true,
+      message: 'Admin session successfully terminated'
     });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -42,7 +103,7 @@ router.get('/verify', requireAdminAuth, (req, res) => {
   return res.status(200).json({
     success: true,
     authenticated: true,
-    message: 'Admin session is active'
+    message: 'Admin session is active and secure'
   });
 });
 

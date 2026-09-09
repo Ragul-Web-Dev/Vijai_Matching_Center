@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, MessageCircle, UploadCloud, Grid, Star, Sparkles, Instagram, ShieldCheck, Layers } from 'lucide-react';
+import { Cpu, MessageCircle, UploadCloud, Grid, Star, Sparkles, Instagram, ShieldCheck, Layers, FileText } from 'lucide-react';
 
-export default function Header({ scrollToSection, onOpenAdmin }) {
+export default function Header({ scrollToSection, onOpenAdmin, onOpenQuotation }) {
   const instagramUrl = "https://www.instagram.com/vijay_embroidery_studio/";
 
   return (
@@ -21,16 +21,23 @@ export default function Header({ scrollToSection, onOpenAdmin }) {
             className="flex items-center gap-3 cursor-pointer group" 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 via-pink-600 to-indigo-500 p-[1.5px] shadow-md shadow-purple-300 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full rounded-[14px] bg-white flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-purple-600" />
-              </div>
+            <div className="w-10 h-10 rounded-full overflow-hidden shadow-md shadow-purple-900/10 group-hover:scale-105 transition-transform flex items-center justify-center bg-slate-950 border border-purple-200">
+              <img 
+                src="/logo.png" 
+                alt="Vijai Embroidery Groups Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
-              <h1 className="text-base md:text-lg font-black tracking-wider text-slate-900 flex items-center gap-1 font-serif-heading">
-                VIJAY <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent italic font-light">EMBROIDERY</span>
-              </h1>
-              <p className="text-[9px] text-purple-700/80 tracking-widest uppercase font-semibold font-mono">12-Needle Studio • Maggam Work</p>
+              <div className="flex items-center gap-1.5">
+                <h1 className="font-brand-title text-lg md:text-[21px] font-extrabold tracking-[0.14em] text-slate-950 group-hover:text-purple-700 transition-colors drop-shadow-sm leading-tight">
+                  VIJAI
+                </h1>
+                <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-gradient-to-tr from-amber-500 to-pink-500" />
+              </div>
+              <p className="font-brand-modern text-[9.5px] md:text-[10px] font-black tracking-[0.22em] uppercase bg-gradient-to-r from-purple-700 via-pink-600 to-amber-600 bg-clip-text text-transparent leading-none mt-0.5">
+                Embroidery Groups
+              </p>
             </div>
           </div>
 
@@ -80,6 +87,16 @@ export default function Header({ scrollToSection, onOpenAdmin }) {
             >
               <Instagram className="w-4 h-4" />
             </a>
+
+            {/* Download Quotation by ID CTA */}
+            <button
+              onClick={onOpenQuotation}
+              className="px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm hover:scale-105"
+              title="Download / Track Quotation by ID"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-600" />
+              <span className="hidden md:inline">Download Quote</span>
+            </button>
 
             {/* Admin Portal Modal Trigger */}
             <button

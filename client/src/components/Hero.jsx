@@ -41,7 +41,7 @@ export default function Hero({ scrollToSection }) {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed font-light"
         >
-          Welcome to <strong className="text-purple-700 font-semibold">Vijay Embroidery</strong>. We specialize in intricate bridal blouse work, saree borders, salwar/chudi embroidery, corporate logo branding, and bespoke pattern creations powered by state-of-the-art 12-needle machinery.
+          Welcome to <strong className="text-purple-700 font-semibold">Vijai Embroidery Groups</strong>. We specialize in intricate bridal blouse work, saree borders, salwar/chudi embroidery, corporate logo branding, and bespoke pattern creations powered by state-of-the-art 12-needle machinery.
         </motion.p>
 
         {/* CTA Buttons */}

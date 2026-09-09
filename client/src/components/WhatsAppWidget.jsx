@@ -95,8 +95,8 @@ export default function WhatsAppWidget({ initialService, selectedDesign }) {
 
     // Fallback WhatsApp URL formatting
     if (!generatedWhatsappUrl) {
-      const businessPhone = '919790449627';
-      let messageText = `🧵 *Vijay Embroidery - Custom Order Enquiry*\n\n`;
+      const businessPhone = '919944571226';
+      let messageText = `🧵 *VIJAI EMBROIDERY GROUPS - CUSTOM ENQUIRY*\n\n`;
       messageText += `📌 *Enquiry ID:* #${refId}\n`;
       messageText += `👤 *Customer Name:* ${formData.name || 'Valued Customer'}\n`;
       messageText += `📞 *Phone:* ${formData.phone || 'Not provided'}\n`;
@@ -104,10 +104,10 @@ export default function WhatsAppWidget({ initialService, selectedDesign }) {
       if (formData.message) {
         messageText += `📝 *Requirements / Location:* ${formData.message}\n`;
       }
-      if (base64Image || selectedFile) {
-        messageText += `🖼️ *Reference Image:* Attached in Vijay Studio System (Ref #${refId}). Customer can also attach photo directly in this chat.\n`;
+      if (base64Image || previewUrl) {
+        messageText += `\n📸 *CUSTOMER ATTACHED DESIGN PHOTO:*\n[Photo attached with Ref #${refId}]\n_(Photo recorded in Vijai Studio System)_\n`;
       }
-      messageText += `\n_Sent via Vijay Embroidery Studio Official Web App_`;
+      messageText += `\n_Sent via Vijai Embroidery Groups Official Web App_`;
       generatedWhatsappUrl = `https://wa.me/${businessPhone}?text=${encodeURIComponent(messageText)}`;
     }
 
@@ -117,7 +117,7 @@ export default function WhatsAppWidget({ initialService, selectedDesign }) {
       refId: refId,
       name: formData.name || 'Valued Customer',
       service: formData.service || 'Custom Embroidery',
-      phone: formData.phone || '+91 97904 49627',
+      phone: formData.phone || '+91 99445 71226',
       message: formData.message,
       image: base64Image || (previewUrl ? 'Reference image attached' : null),
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -408,11 +408,21 @@ export default function WhatsAppWidget({ initialService, selectedDesign }) {
                 </p>
 
                 {previewUrl && (
-                  <div className="mb-4 p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-left flex items-start gap-2.5 text-[11px] text-amber-900">
-                    <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>
-                      <strong>Reference Photo Note:</strong> Your uploaded photo is safely registered with Ref ID <strong>#{enquiryRefId}</strong> in our studio. You can also attach it directly in your WhatsApp conversation.
-                    </span>
+                  <div className="mb-5 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-left flex items-center gap-3 shadow-sm">
+                    <img 
+                      src={previewUrl} 
+                      alt="Uploaded Design" 
+                      className="w-14 h-14 object-cover rounded-xl border border-emerald-300 shadow-sm shrink-0" 
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1 text-emerald-800 font-bold text-xs">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Photo Attached to Order</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 mt-0.5 leading-snug font-light">
+                        Direct high-res photo link is embedded in the WhatsApp message for the studio team (+91 99445 71226).
+                      </p>
+                    </div>
                   </div>
                 )}
 
@@ -420,10 +430,10 @@ export default function WhatsAppWidget({ initialService, selectedDesign }) {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-200 transition-all hover:scale-105"
+                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-700 hover:to-amber-700 text-white font-bold text-xs md:text-sm shadow-md shadow-emerald-200 transition-all hover:scale-[1.02]"
                 >
                   <MessageSquare className="w-4 h-4 fill-white" />
-                  <span>Open WhatsApp Chat Now</span>
+                  <span>Send Order & Photo on WhatsApp</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
 
