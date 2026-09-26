@@ -9,6 +9,7 @@ import CustomerReviews from './components/CustomerReviews';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import AdminPanel from './components/AdminPanel';
 import CustomerQuotationView from './components/CustomerQuotationView';
+import QuotationGenerator from './components/QuotationGenerator';
 
 import { 
   Instagram, 
@@ -22,28 +23,34 @@ import {
   ArrowUpRight,
   Heart,
   Receipt,
-  FileText
+  FileText,
+  ArrowLeft,
+  X
 } from 'lucide-react';
 
 export default function App() {
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const initialPath = window.location.pathname;
+  const [isAdminOpen, setIsAdminOpen] = useState(initialPath.startsWith('/admin') && initialPath !== '/admin/quotations');
+  const [currentPath, setCurrentPath] = useState(initialPath);
   const [selectedDesign, setSelectedDesign] = useState(null);
   const [customerQuotationModal, setCustomerQuotationModal] = useState(null);
 
   useEffect(() => {
     // Listen to browser navigation changes
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
-      if (window.location.pathname.startsWith('/admin')) {
+      const path = window.location.pathname;
+      setCurrentPath(path);
+      if (path.startsWith('/admin') && path !== '/admin/quotations') {
         setIsAdminOpen(true);
+      } else {
+        setIsAdminOpen(false);
       }
     };
 
     window.addEventListener('popstate', handlePopState);
 
     // Initial check for /admin/login or /admin/dashboard
-    if (window.location.pathname.startsWith('/admin')) {
+    if (initialPath.startsWith('/admin') && initialPath !== '/admin/quotations') {
       setIsAdminOpen(true);
     }
 
@@ -53,7 +60,7 @@ export default function App() {
   const navigateTo = (path) => {
     window.history.pushState({}, '', path);
     setCurrentPath(path);
-    if (path.startsWith('/admin')) {
+    if (path.startsWith('/admin') && path !== '/admin/quotations') {
       setIsAdminOpen(true);
     } else {
       setIsAdminOpen(false);
@@ -107,6 +114,51 @@ export default function App() {
             }
           }}
         />
+      )}
+
+      {/* Dedicated Quotation Generator View (/admin/quotations or /quotations) */}
+      {(currentPath === '/admin/quotations' || currentPath === '/quotations') && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+          <div className="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-emerald-200/90 max-h-[94vh] flex flex-col my-auto">
+            {/* Top Modal Navigation Header */}
+            <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 px-6 py-4 text-white flex items-center justify-between border-b border-emerald-800/80 shrink-0">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => navigateTo('/')}
+                  className="p-2 rounded-xl bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 hover:text-white transition-colors"
+                  title="Back to Home"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                <div>
+                  <h2 className="text-base sm:text-lg font-bold flex items-center gap-2 font-brand-title">
+                    <Receipt className="w-5 h-5 text-emerald-400" />
+                    Quotation Generator & Estimate Portal
+                    <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                      Official Studio Tool
+                    </span>
+                  </h2>
+                  <p className="text-[10.5px] text-emerald-300/80 font-mono">
+                    Vijai Embroidery Groups • GST Invoicing, WhatsApp Quotes & Admin Digital Seal
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigateTo('/')}
+                className="p-1.5 rounded-xl bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 hover:text-white transition-colors"
+                title="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Scrollable Generator Area */}
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-slate-50/50">
+              <QuotationGenerator onNavigate={navigateTo} />
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Secure Studio Admin Dashboard Modal & Routed View */}

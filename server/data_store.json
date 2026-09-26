@@ -140,6 +140,1064 @@
   ],
   "quotations": [
     {
+      "id": "VE-QT-9616",
+      "quotationNo": "VE-QT-9616",
+      "quotationDate": "2026-09-20",
+      "validTillDate": "2026-10-05",
+      "customer": {
+        "name": "Ragul",
+        "phone": "9944571226",
+        "address": "Alagapuram"
+      },
+      "items": [
+        {
+          "id": 1789914074316,
+          "description": "",
+          "qty": 4,
+          "rate": 1500,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 6000,
+      "cgst": 150,
+      "sgst": 150,
+      "grandTotal": 6300,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "SENT",
+      "approvedAt": "2026-09-20T14:21:35.916Z",
+      "approvedBy": "Vijai Embroidery Admin",
+      "sentAt": "2026-09-20T14:54:42.011Z",
+      "updatedAt": "2026-09-20T14:54:42.011Z",
+      "createdAt": "2026-09-20T14:21:30.430Z"
+    },
+    {
+      "id": "VE-QT-5796",
+      "quotationNo": "VE-QT-5796",
+      "quotationDate": "2026-09-20",
+      "validTillDate": "2026-10-05",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "approvedAt": null,
+      "approvedBy": null,
+      "sentAt": null,
+      "updatedAt": "2026-09-20T13:41:17.386Z",
+      "createdAt": "2026-09-20T13:41:11.607Z"
+    },
+    {
+      "id": "VE-QT-3089",
+      "quotationNo": "VE-QT-3089",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "approvedAt": null,
+      "approvedBy": null,
+      "sentAt": null,
+      "updatedAt": "2026-09-19T13:42:51.436Z",
+      "createdAt": "2026-09-19T13:42:51.436Z"
+    },
+    {
+      "id": "VE-QT-4209",
+      "quotationNo": "VE-QT-4209",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "approvedAt": null,
+      "approvedBy": null,
+      "sentAt": null,
+      "updatedAt": "2026-09-19T13:38:08.821Z",
+      "createdAt": "2026-09-19T13:38:08.821Z"
+    },
+    {
+      "id": "VE-QT-7928",
+      "quotationNo": "VE-QT-7928",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "approvedAt": null,
+      "approvedBy": null,
+      "sentAt": null,
+      "updatedAt": "2026-09-19T13:35:11.644Z",
+      "createdAt": "2026-09-19T13:35:11.644Z"
+    },
+    {
+      "id": "VE-QT-8780",
+      "quotationNo": "VE-QT-8780",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "approvedAt": null,
+      "approvedBy": null,
+      "sentAt": null,
+      "updatedAt": "2026-09-19T13:34:57.815Z",
+      "createdAt": "2026-09-19T13:34:57.815Z"
+    },
+    {
+      "id": "VE-QT-4237",
+      "quotationNo": "VE-QT-4237",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": false,
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "confirmedAt": null,
+      "verifiedBy": null,
+      "updatedAt": "2026-09-19T13:31:20.356Z",
+      "createdAt": "2026-09-19T13:31:07.582Z"
+    },
+    {
+      "id": "VE-QT-4092",
+      "quotationNo": "VE-QT-4092",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": false,
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "confirmedAt": null,
+      "verifiedBy": null,
+      "updatedAt": "2026-09-19T13:26:53.413Z",
+      "createdAt": "2026-09-19T13:24:42.604Z"
+    },
+    {
+      "id": "VE-QT-6766",
+      "quotationNo": "VE-QT-6766",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Ragul R",
+        "phone": "9944571226",
+        "address": "Alagapuram"
+      },
+      "items": [
+        {
+          "id": 1789823881225,
+          "description": "",
+          "qty": 1,
+          "rate": 150,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 150,
+      "cgst": 3.75,
+      "sgst": 3.75,
+      "grandTotal": 158,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "hasSeal": true,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "APPROVED",
+      "confirmedAt": "2026-09-19T13:18:15.318Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-19T13:30:58.822Z",
+      "createdAt": "2026-09-19T13:18:15.318Z"
+    },
+    {
+      "id": "VE-QT-5538",
+      "quotationNo": "VE-QT-5538",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": false,
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "SENT",
+      "confirmedAt": null,
+      "verifiedBy": null,
+      "updatedAt": "2026-09-19T13:16:57.848Z",
+      "createdAt": "2026-09-19T13:16:57.848Z"
+    },
+    {
+      "id": "VE-QT-6166",
+      "quotationNo": "VE-QT-6166",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": false,
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "SENT",
+      "confirmedAt": null,
+      "verifiedBy": null,
+      "updatedAt": "2026-09-19T13:09:25.439Z",
+      "createdAt": "2026-09-19T13:09:25.439Z"
+    },
+    {
+      "id": "VE-QT-7053",
+      "quotationNo": "VE-QT-7053",
+      "quotationDate": "2026-09-19",
+      "validTillDate": "2026-10-04",
+      "customer": {
+        "name": "Ragul",
+        "phone": "9944571226",
+        "address": "Alagapuram"
+      },
+      "items": [
+        {
+          "id": 1789822492619,
+          "description": "AS",
+          "qty": 1,
+          "rate": 120,
+          "gstRate": 5
+        },
+        {
+          "id": 1789822522771,
+          "description": "AD",
+          "qty": 1,
+          "rate": 1000,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 1120,
+      "cgst": 28,
+      "sgst": 28,
+      "grandTotal": 1176,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "hasSeal": true,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "SENT",
+      "confirmedAt": "2026-09-19T12:55:37.234Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-20T14:22:49.932Z",
+      "createdAt": "2026-09-19T12:55:33.760Z",
+      "sentAt": "2026-09-20T14:22:49.932Z"
+    },
+    {
+      "id": "VE-QT-5113",
+      "quotationNo": "VE-QT-5113",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "",
+        "phone": "",
+        "address": ""
+      },
+      "items": [
+        {
+          "id": 1788960485451,
+          "description": "",
+          "qty": 1,
+          "rate": 0,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 0,
+      "cgst": 0,
+      "sgst": 0,
+      "grandTotal": 0,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T13:28:07.803Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T13:28:08.167Z",
+      "createdAt": "2026-09-09T13:28:07.808Z"
+    },
+    {
+      "id": "VE-QT-3691",
+      "quotationNo": "VE-QT-3691",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T13:28:02.715Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T13:28:03.849Z",
+      "createdAt": "2026-09-09T13:28:02.721Z"
+    },
+    {
+      "id": "VE-QT-7726",
+      "quotationNo": "VE-QT-7726",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T13:14:59.147Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T13:14:59.151Z",
+      "createdAt": "2026-09-09T13:14:59.151Z"
+    },
+    {
+      "id": "VE-QT-3297",
+      "quotationNo": "VE-QT-3297",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T13:14:54.956Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T13:14:54.961Z",
+      "createdAt": "2026-09-09T13:14:54.961Z"
+    },
+    {
+      "id": "VE-QT-7570",
+      "quotationNo": "VE-QT-7570",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T13:14:49.963Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T13:14:49.968Z",
+      "createdAt": "2026-09-09T13:14:49.968Z"
+    },
+    {
+      "id": "VE-QT-8551",
+      "quotationNo": "VE-QT-8551",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:58:28.324Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T12:58:28.329Z",
+      "createdAt": "2026-09-09T12:58:28.329Z"
+    },
+    {
+      "id": "VE-QT-5347",
+      "quotationNo": "VE-QT-5347",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:57:03.604Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T12:57:03.611Z",
+      "createdAt": "2026-09-09T12:57:03.611Z"
+    },
+    {
+      "id": "VE-QT-5258",
+      "quotationNo": "VE-QT-5258",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:56:55.725Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T12:56:55.729Z",
+      "createdAt": "2026-09-09T12:56:55.729Z"
+    },
+    {
+      "id": "VE-QT-1809",
+      "quotationNo": "VE-QT-1809",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:56:48.212Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-09T12:56:48.218Z",
+      "createdAt": "2026-09-09T12:56:48.218Z"
+    },
+    {
+      "id": "VE-QT-9128",
+      "quotationNo": "VE-QT-9128",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:54:34.380Z",
+      "verifiedBy": "Vijai Embroidery Admin",
+      "updatedAt": "2026-09-09T12:54:34.386Z",
+      "createdAt": "2026-09-09T12:54:34.386Z"
+    },
+    {
+      "id": "VE-QT-5941",
+      "quotationNo": "VE-QT-5941",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "hasSeal": true,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:54:05.349Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-19T12:53:58.340Z",
+      "createdAt": "2026-09-09T12:54:05.353Z"
+    },
+    {
+      "id": "VE-QT-8715",
+      "quotationNo": "VE-QT-8715",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:53:57.052Z",
+      "verifiedBy": "Vijai Embroidery Admin",
+      "updatedAt": "2026-09-09T12:53:57.058Z",
+      "createdAt": "2026-09-09T12:53:57.058Z"
+    },
+    {
+      "id": "VE-QT-7899",
+      "quotationNo": "VE-QT-7899",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:53:44.812Z",
+      "verifiedBy": "Vijai Embroidery Admin",
+      "updatedAt": "2026-09-09T12:53:44.818Z",
+      "createdAt": "2026-09-09T12:53:44.818Z"
+    },
+    {
+      "id": "VE-QT-5406",
+      "quotationNo": "VE-QT-5406",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:53:00.685Z",
+      "verifiedBy": "Vijai Embroidery Admin",
+      "updatedAt": "2026-09-09T12:53:00.689Z",
+      "createdAt": "2026-09-09T12:53:00.689Z"
+    },
+    {
+      "id": "VE-QT-9338",
+      "quotationNo": "VE-QT-9338",
+      "quotationDate": "2026-09-09",
+      "validTillDate": "2026-09-24",
+      "customer": {
+        "name": "Priyadarshini R.",
+        "phone": "9840123456",
+        "address": "No. 45, Gandhi Road, Salem, Tamil Nadu - 636001"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Bridal Blouse Heavy Maggam Embroidery (Peacock Back-Neck & Double Sleeves)",
+          "qty": 1,
+          "rate": 3500,
+          "gstRate": 5
+        },
+        {
+          "id": 2,
+          "description": "Kanchipuram Silk Saree Scalloped Gold Zari Border (20x32 Frame Area)",
+          "qty": 1,
+          "rate": 2200,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 5700,
+      "cgst": 142.5,
+      "sgst": 142.5,
+      "grandTotal": 5985,
+      "notes": "50% advance required to commence digitizing. Balance upon completion before delivery.",
+      "isConfirmed": true,
+      "status": "confirmed",
+      "confirmedAt": "2026-09-09T12:51:52.389Z",
+      "verifiedBy": "Vijai Embroidery Admin",
+      "updatedAt": "2026-09-09T12:51:52.477Z",
+      "createdAt": "2026-09-09T12:51:52.477Z"
+    },
+    {
       "id": "VE-QT-9901",
       "quotationNo": "VE-QT-9901",
       "quotationDate": "2026-09-09",
@@ -161,7 +1219,17 @@
       "subtotal": 3500,
       "cgst": 87.5,
       "sgst": 87.5,
-      "grandTotal": 3675
+      "grandTotal": 3675,
+      "notes": "",
+      "isConfirmed": true,
+      "hasSeal": true,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "SENT",
+      "confirmedAt": "2026-09-19T12:54:10.819Z",
+      "verifiedBy": "Vijai Kumar R. (Studio Administrator)",
+      "updatedAt": "2026-09-19T12:54:23.601Z"
     }
   ]
 }

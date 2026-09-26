@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Printer, 
+  Download,
   Send, 
   Search, 
   FileText, 
   ArrowLeft, 
-  CheckCircle2, 
   AlertCircle, 
   Clock, 
   Phone, 
-  Sparkles,
-  RefreshCw,
-  X
+  RefreshCw, 
+  X, 
+  ShieldCheck, 
+  CheckCircle2 
 } from 'lucide-react';
 import axios from 'axios';
 
-export default function CustomerQuotationView({ quotationId, onClose, onSearchOther }) {
+export default function CustomerQuotationView({ quotationId, onClose }) {
   const [searchId, setSearchId] = useState(quotationId || '');
   const [quotation, setQuotation] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,21 +36,37 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
       const cleanId = idToFetch.trim().toUpperCase();
       const res = await axios.get(`/api/quotations/${encodeURIComponent(cleanId)}`);
       if (res.data && res.data.success && res.data.quotation) {
-        setQuotation(res.data.quotation);
+        const q = res.data.quotation;
+        const qStatus = (q.status || 'DRAFT').toUpperCase();
+        if (qStatus === 'DRAFT') {
+          setError(`Quotation #${cleanId} is currently in DRAFT status and has not been approved yet.`);
+          setQuotation(null);
+        } else {
+          setQuotation(q);
+        }
       } else {
-        setError(res.data.message || 'Quotation not found.');
+        setError(res.data?.message || 'Quotation not found.');
       }
     } catch (err) {
-      // Check localStorage fallback
-      const localStore = JSON.parse(localStorage.getItem('vijay_quotations_store') || '[]');
-      const found = localStore.find(q => 
-        q.id?.toUpperCase() === idToFetch.trim().toUpperCase() || 
-        q.quotationNo?.toUpperCase() === idToFetch.trim().toUpperCase()
-      );
-      if (found) {
-        setQuotation(found);
+      if (err.response && err.response.status === 403) {
+        setError(err.response.data?.message || `Quotation #${idToFetch} is in DRAFT status and is not yet available for customer viewing.`);
       } else {
-        setError(`Quotation #${idToFetch} not found. Please verify your Quotation Reference Number.`);
+        // Check localStorage fallback for approved quotation
+        const localStore = JSON.parse(localStorage.getItem('vijay_quotations_store') || '[]');
+        const found = localStore.find(q => 
+          q.id?.toUpperCase() === idToFetch.trim().toUpperCase() || 
+          q.quotationNo?.toUpperCase() === idToFetch.trim().toUpperCase()
+        );
+        if (found) {
+          const foundStatus = (found.status || 'DRAFT').toUpperCase();
+          if (foundStatus === 'APPROVED' || foundStatus === 'SENT') {
+            setQuotation(found);
+          } else {
+            setError(`Quotation #${idToFetch} is currently in DRAFT status and has not been approved yet.`);
+          }
+        } else {
+          setError(`Quotation #${idToFetch} not found. Please verify your Quotation Reference Number.`);
+        }
       }
     } finally {
       setLoading(false);
@@ -75,54 +92,32 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
     window.print();
   };
 
-  const handleConfirmQuotation = async () => {
+  const handleDownloadPdf = () => {
     if (!quotation) return;
-    try {
-      const res = await axios.put(`/api/quotations/${encodeURIComponent(quotation.quotationNo)}/confirm`, {
-        verifiedBy: 'Vijai Embroidery Admin'
-      });
-      if (res.data && res.data.success && res.data.quotation) {
-        setQuotation(res.data.quotation);
-      } else {
-        setQuotation({
-          ...quotation,
-          isConfirmed: true,
-          status: 'confirmed',
-          confirmedAt: new Date().toISOString(),
-          verifiedBy: 'Vijai Embroidery Admin'
-        });
-      }
-    } catch (err) {
-      // Local storage fallback update
-      const updated = {
-        ...quotation,
-        isConfirmed: true,
-        status: 'confirmed',
-        confirmedAt: new Date().toISOString(),
-        verifiedBy: 'Vijai Embroidery Admin'
-      };
-      setQuotation(updated);
-      const localStore = JSON.parse(localStorage.getItem('vijay_quotations_store') || '[]');
-      const idx = localStore.findIndex(q => q.quotationNo === quotation.quotationNo || q.id === quotation.quotationNo);
-      if (idx !== -1) {
-        localStore[idx] = updated;
-        localStorage.setItem('vijay_quotations_store', JSON.stringify(localStore));
-      }
-    }
+    const qNo = quotation.quotationNo || quotation.id;
+    const link = document.createElement('a');
+    link.href = `/api/quotations/${encodeURIComponent(qNo)}/pdf`;
+    link.download = `quotation-${qNo}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  const handleWhatsAppConfirm = () => {
+  const handleWhatsAppContact = () => {
     if (!quotation) return;
     const businessPhone = '919944571226';
-    let msg = `🧵 *VIJAI EMBROIDERY GROUPS - QUOTATION CONFIRMATION*\n\n`;
-    msg += `Hello! I have reviewed Quotation *#${quotation.quotationNo}* for ${quotation.customer?.name || 'Customer'}.\n`;
-    msg += `💰 *Grand Total:* ₹${Number(quotation.grandTotal).toLocaleString('en-IN')}\n`;
-    msg += `🛡️ *Seal Status:* ${quotation.isConfirmed ? '✅ Confirmed & Sealed by Admin' : '⏳ Ready for Confirmation'}\n\n`;
-    msg += `I would like to confirm this order. Please guide me with the advance payment and fabric handover details.`;
+    let msg = 'VIJAI EMBROIDERY GROUPS - QUOTATION ENQUIRY\n\n';
+    msg += 'Customer: ' + (quotation.customer?.name || 'Customer') + '\n';
+    msg += 'Quotation Number: #' + quotation.quotationNo + '\n';
+    msg += 'Total Amount: Rs. ' + Number(quotation.grandTotal || 0).toLocaleString('en-IN') + '\n\n';
+    msg += 'Hello, I am contacting you regarding my quotation. Please guide me with next steps.';
 
-    const url = `https://wa.me/${businessPhone}?text=${encodeURIComponent(msg)}`;
+    const encodedMsg = encodeURIComponent(msg);
+    const url = `https://wa.me/${businessPhone}?text=${encodedMsg}`;
     window.open(url, '_blank');
   };
+
+  const status = (quotation?.status || 'DRAFT').toUpperCase();
 
   return (
     <div className="min-h-screen bg-slate-900/90 backdrop-blur-md py-6 px-3 sm:px-6 fixed inset-0 z-50 overflow-y-auto flex flex-col items-center">
@@ -173,32 +168,35 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
         {/* Action Buttons */}
         {quotation && (
           <div className="flex items-center gap-2">
-            {/* Generate & Confirm Seal Button */}
+            <span className={`px-2.5 py-1 rounded-xl text-xs font-bold border ${
+              status === 'APPROVED' || status === 'SENT'
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                : 'bg-amber-50 text-amber-800 border-amber-300'
+            }`}>
+              {status === 'SENT' ? '✓ SENT' : status === 'APPROVED' ? '✓ APPROVED' : 'DRAFT'}
+            </span>
+
+            {/* Download PDF Button */}
             <button
-              onClick={handleConfirmQuotation}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all hover:scale-105 ${
-                quotation.isConfirmed
-                  ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                  : 'bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white ring-2 ring-purple-300 animate-pulse hover:animate-none'
-              }`}
-              title="Generate & Verify with Official Digital Round Seal"
+              onClick={handleDownloadPdf}
+              className="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all hover:scale-105"
+              title="Download official PDF copy"
             >
-              <CheckCircle2 className="w-3.5 h-3.5 text-amber-300" />
-              {quotation.isConfirmed ? '✓ Confirmed (Sealed)' : 'Confirm & Generate Seal'}
+              <Download className="w-3.5 h-3.5" /> Download PDF
             </button>
 
             <button
               onClick={handlePrint}
-              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-800 to-slate-900 hover:from-emerald-700 hover:to-slate-800 text-amber-300 border border-amber-400/40 font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all hover:scale-105"
+              className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-800 to-slate-900 hover:from-emerald-700 hover:to-slate-800 text-amber-300 border border-amber-400/40 font-bold text-xs flex items-center gap-1 shadow-sm transition-all hover:scale-105"
             >
-              <Printer className="w-3.5 h-3.5 text-amber-400" /> Print / Save PDF
+              <Printer className="w-3.5 h-3.5 text-amber-400" /> Print
             </button>
 
             <button
-              onClick={handleWhatsAppConfirm}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all hover:scale-105"
+              onClick={handleWhatsAppContact}
+              className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition-all hover:scale-105"
             >
-              <Send className="w-3.5 h-3.5 fill-white" /> Confirm on WhatsApp
+              <Send className="w-3.5 h-3.5 fill-white" /> WhatsApp Studio
             </button>
           </div>
         )}
@@ -252,9 +250,18 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
             {/* TOP HEADER: Left Quotation Details & Right Logo */}
             <div className="flex flex-row items-start justify-between gap-4 pb-2">
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 font-brand-title">
-                  Quotation
-                </h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 font-brand-title">
+                    Quotation
+                  </h1>
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
+                    status === 'APPROVED' || status === 'SENT'
+                      ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                      : 'bg-amber-100 text-amber-800 border-amber-300'
+                  }`}>
+                    {status}
+                  </span>
+                </div>
                 <div className="pt-1 space-y-0.5 text-xs text-slate-600">
                   <p className="flex items-center gap-1.5">
                     <span className="font-semibold text-slate-500">Quotation No:</span>
@@ -371,18 +378,18 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
               <div className="w-full sm:w-72 space-y-2 text-xs border border-slate-200 rounded-xl p-3.5 bg-slate-50">
                 <div className="flex justify-between text-slate-600">
                   <span>Subtotal:</span>
-                  <span className="font-mono font-semibold text-slate-900">₹{Number(quotation.subtotal).toLocaleString('en-IN')}</span>
+                  <span className="font-mono font-semibold text-slate-900">₹{Number(quotation.subtotal || 0).toLocaleString('en-IN')}</span>
                 </div>
 
                 {(quotation.cgst > 0 || quotation.sgst > 0) && (
                   <>
                     <div className="flex justify-between text-slate-600 text-[11px]">
                       <span>CGST:</span>
-                      <span className="font-mono">₹{Math.round(quotation.cgst).toLocaleString('en-IN')}</span>
+                      <span className="font-mono">₹{Math.round(quotation.cgst || 0).toLocaleString('en-IN')}</span>
                     </div>
                     <div className="flex justify-between text-slate-600 text-[11px]">
                       <span>SGST:</span>
-                      <span className="font-mono">₹{Math.round(quotation.sgst).toLocaleString('en-IN')}</span>
+                      <span className="font-mono">₹{Math.round(quotation.sgst || 0).toLocaleString('en-IN')}</span>
                     </div>
                   </>
                 )}
@@ -390,7 +397,7 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
                 <div className="pt-2 border-t-2 border-emerald-800 flex justify-between text-sm font-bold text-emerald-950">
                   <span>Grand Total:</span>
                   <span className="font-mono text-base font-black text-emerald-800">
-                    ₹{Number(quotation.grandTotal).toLocaleString('en-IN')}
+                    ₹{Number(quotation.grandTotal || 0).toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
@@ -406,15 +413,60 @@ export default function CustomerQuotationView({ quotationId, onClose, onSearchOt
                 <p>4. Doorstep delivery available across all Tamil Nadu districts.</p>
               </div>
 
-              <div className="text-center sm:text-right space-y-1">
-                <div className="h-12 flex items-end justify-center sm:justify-end">
-                  <span className="font-brand-luxury italic font-bold text-emerald-800 text-sm tracking-wider">
-                    Vijai Embroidery Groups
-                  </span>
-                </div>
-                <div className="border-t border-slate-400 pt-1">
-                  <p className="font-bold text-slate-900 font-mono">Authorized Signatory</p>
-                  <p className="text-[9px] text-slate-400">Vijay Embroidery Studio • Salem</p>
+              {/* Authorised Signatory & Round Seal Area */}
+              <div className="flex flex-col items-center sm:items-end justify-end space-y-1 select-none min-h-[90px]">
+                {quotation.hasSeal ? (
+                  <div className="relative flex items-center justify-center sm:justify-end">
+                    {/* Round Company Seal */}
+                    <div className="relative w-20 h-20 mb-1 rotate-[-5deg] opacity-90 transition-transform hover:rotate-0">
+                      <svg viewBox="0 0 200 200" className="w-full h-full text-indigo-800 drop-shadow-xs">
+                        {/* Outer Rings */}
+                        <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.95" />
+                        <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2" opacity="0.8" />
+                        <circle cx="100" cy="100" r="64" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.85" />
+
+                        {/* Curved Circular Text Top */}
+                        <path id="sealTopCust" d="M 22 100 A 78 78 0 0 1 178 100" fill="none" />
+                        <text className="text-[10px] font-black uppercase tracking-[0.14em]" fill="currentColor">
+                          <textPath href="#sealTopCust" startOffset="50%" textAnchor="middle">
+                            ★ VIJAY EMBROIDERY GROUPS ★
+                          </textPath>
+                        </text>
+
+                        {/* Curved Circular Text Bottom */}
+                        <path id="sealBottomCust" d="M 178 100 A 78 78 0 0 1 22 100" fill="none" />
+                        <text className="text-[9.5px] font-bold uppercase tracking-[0.16em]" fill="currentColor">
+                          <textPath href="#sealBottomCust" startOffset="50%" textAnchor="middle">
+                            • SALEM • TAMIL NADU •
+                          </textPath>
+                        </text>
+
+                        {/* Center Star & Confirmation Badge */}
+                        <g transform="translate(100, 100)" textAnchor="middle">
+                          <path d="M 0 -34 L 2.5 -28 L 8.5 -28 L 3.5 -24 L 5.5 -18 L 0 -21 L -5.5 -18 L -3.5 -24 L -8.5 -28 L -2.5 -28 Z" fill="currentColor" opacity="0.9" />
+                          <text y="-6" className="text-[11.5px] font-black tracking-wider uppercase font-mono" fill="currentColor">
+                            OFFICIAL
+                          </text>
+                          <text y="7" className="text-[8px] font-bold tracking-widest uppercase font-mono" fill="currentColor" opacity="0.9">
+                            STUDIO SEAL
+                          </text>
+                          <text y="19" className="text-[7.5px] font-semibold tracking-wider font-mono" fill="currentColor" opacity="0.8">
+                            SALEM - TN
+                          </text>
+                        </g>
+                      </svg>
+
+                      <div className="absolute inset-0 rounded-full pointer-events-none mix-blend-multiply opacity-20 bg-radial from-transparent to-indigo-900" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-12" />
+                )}
+
+                {/* Authorised Signatory */}
+                <div className="border-t border-slate-300 pt-1 text-center sm:text-right w-44">
+                  <p className="font-bold text-slate-900 font-mono text-[10px]">Authorised Signatory</p>
+                  <p className="text-[9px] text-slate-500">Vijay Embroidery Studio • Salem</p>
                 </div>
               </div>
             </div>

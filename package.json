@@ -7,5 +7,8 @@
     "dev:server": "cd server && node server.js",
     "dev:client": "npm --prefix client run dev",
     "dev": "npx --yes concurrently \"npm run dev:server\" \"npm run dev:client\""
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.11.0"
   }
 }
