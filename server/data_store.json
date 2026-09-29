@@ -140,6 +140,41 @@
   ],
   "quotations": [
     {
+      "id": "VE-QT-TEST-1280",
+      "quotationNo": "VE-QT-TEST-1280",
+      "quotationDate": "2026-09-29",
+      "validTillDate": "2026-10-14",
+      "customer": {
+        "name": "Test Customer",
+        "phone": "9840123456",
+        "address": "Salem"
+      },
+      "items": [
+        {
+          "id": 1,
+          "description": "Test Item",
+          "qty": 1,
+          "rate": 1000,
+          "gstRate": 5
+        }
+      ],
+      "subtotal": 1000,
+      "cgst": 25,
+      "sgst": 25,
+      "grandTotal": 1050,
+      "notes": "",
+      "hasSeal": false,
+      "hasSignature": false,
+      "authorizedSignatory": "Vijai Kumar R.",
+      "designation": "Studio Administrator",
+      "status": "DRAFT",
+      "approvedAt": null,
+      "approvedBy": null,
+      "sentAt": null,
+      "updatedAt": "2026-09-29T16:06:58.565Z",
+      "createdAt": "2026-09-29T16:06:58.565Z"
+    },
+    {
       "id": "VE-QT-9616",
       "quotationNo": "VE-QT-9616",
       "quotationDate": "2026-09-20",
@@ -170,8 +205,8 @@
       "status": "SENT",
       "approvedAt": "2026-09-20T14:21:35.916Z",
       "approvedBy": "Vijai Embroidery Admin",
-      "sentAt": "2026-09-20T14:54:42.011Z",
-      "updatedAt": "2026-09-20T14:54:42.011Z",
+      "sentAt": "2026-09-26T16:29:27.189Z",
+      "updatedAt": "2026-09-26T16:29:27.189Z",
       "createdAt": "2026-09-20T14:21:30.430Z"
     },
     {

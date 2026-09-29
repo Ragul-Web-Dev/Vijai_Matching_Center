@@ -1,4 +1,5 @@
 import express from 'express';
+import axios from 'axios';
 import { requireAdminAuth, verifyAdminToken } from '../auth.js';
 import { loadData, saveData } from '../store.js';
 import { generateQuotationPdf } from '../utils/pdfGenerator.js';
@@ -118,13 +119,6 @@ router.get('/:id', (req, res) => {
       });
     }
 
-    // Ensure PDF file exists in server/uploads/quotations/ before customer download link is created
-    try {
-      generateQuotationPdf(normalized);
-    } catch (pdfErr) {
-      console.error('[Generate PDF Error in GET /:id]:', pdfErr);
-    }
-
     return res.status(200).json({
       success: true,
       quotation: normalized,
@@ -229,14 +223,15 @@ router.post('/', (req, res) => {
     store.quotations = quotations;
     saveData(store);
 
-    // Ensure PDF file is generated on disk before any download link is clicked
-    try {
-      generateQuotationPdf(newQuotation);
-    } catch (pdfErr) {
-      console.error('[Generate PDF Error in POST /api/quotations]:', pdfErr);
-    }
-
-    const envBase = (process.env.PUBLIC_BASE_URL || process.env.VITE_PUBLIC_BASE_URL || process.env.BASE_URL || '').trim().replace(/\/+$/, '');
+    const envBase = (
+      process.env.FRONTEND_PUBLIC_URL ||
+      process.env.VITE_FRONTEND_PUBLIC_URL ||
+      process.env.PUBLIC_FRONTEND_URL ||
+      process.env.PUBLIC_BASE_URL ||
+      process.env.VITE_PUBLIC_BASE_URL ||
+      process.env.BASE_URL ||
+      ''
+    ).trim().replace(/\/+$/, '');
     const path = `/quotation/${encodeURIComponent(cleanId)}`;
     let publicUrl = envBase ? `${envBase}${path}` : path;
     if (!envBase) {
@@ -319,13 +314,6 @@ router.patch('/:id/approve', requireAdminAuth, (req, res) => {
     quotations[idx].approvedBy = 'Vijai Embroidery Admin';
     quotations[idx].updatedAt = new Date().toISOString();
 
-    // Ensure PDF is generated on disk
-    try {
-      generateQuotationPdf(quotations[idx]);
-    } catch (pdfErr) {
-      console.error('[Generate PDF Error on Approve]:', pdfErr);
-    }
-
     store.quotations = quotations;
     saveData(store);
 
@@ -361,13 +349,6 @@ router.patch('/:id/send', (req, res) => {
     quotations[idx].sentAt = new Date().toISOString();
     quotations[idx].updatedAt = new Date().toISOString();
 
-    // Ensure PDF is generated on disk
-    try {
-      generateQuotationPdf(quotations[idx]);
-    } catch (pdfErr) {
-      console.error('[Generate PDF Error on Send]:', pdfErr);
-    }
-
     store.quotations = quotations;
     saveData(store);
 
@@ -381,8 +362,8 @@ router.patch('/:id/send', (req, res) => {
   }
 });
 
-// POST /api/quotations/:id/send-whatsapp - Simplified WhatsApp send helper (Marks status SENT and ensures PDF generated)
-router.post('/:id/send-whatsapp', (req, res) => {
+// POST /api/quotations/:id/send-whatsapp - Send exact quotation PDF as WhatsApp Cloud API DOCUMENT
+router.post('/:id/send-whatsapp', async (req, res) => {
   try {
     const { id } = req.params;
     const cleanQuery = (id || '').trim().toUpperCase();
@@ -412,8 +393,7 @@ router.post('/:id/send-whatsapp', (req, res) => {
           grandTotal: Number(req.body.grandTotal) || 0,
           notes: req.body.notes || '',
           hasSeal: Boolean(req.body.hasSeal),
-          status: 'SENT',
-          sentAt: new Date().toISOString(),
+          status: 'APPROVED',
           authorizedSignatory: req.body.authorizedSignatory || 'Vijai Kumar R.',
           designation: req.body.designation || 'Studio Administrator',
           createdAt: new Date().toISOString(),
@@ -423,27 +403,132 @@ router.post('/:id/send-whatsapp', (req, res) => {
       } else {
         return res.status(404).json({ success: false, message: `Quotation #${id} not found.` });
       }
-    } else {
+    }
+
+    const cleanId = String(quotation.quotationNo || quotation.id || cleanQuery).trim().toUpperCase();
+
+    // 1. Generate / capture the exact existing quotation as PDF
+    let pdfPath;
+    try {
+      pdfPath = await generateQuotationPdf(quotation, true);
+    } catch (pdfErr) {
+      console.error('[Quotation PDF Generation Error in send-whatsapp]:', pdfErr);
+      return res.status(500).json({
+        success: false,
+        message: `Failed to generate quotation PDF: ${pdfErr.message}`
+      });
+    }
+
+    // 2. Validate customer phone number
+    const customerPhoneRaw = quotation.customer?.phone || req.body.phone || '';
+    const digitsOnly = String(customerPhoneRaw).replace(/[^0-9]/g, '');
+    let targetPhone = digitsOnly;
+    if (targetPhone.length === 10) {
+      targetPhone = `91${targetPhone}`;
+    }
+
+    if (!targetPhone || targetPhone.length < 10) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid customer phone number for Quotation #${cleanId}. Please ensure a valid 10-digit phone number is provided.`
+      });
+    }
+
+    // 3. Resolve public HTTPS URL for the generated PDF
+    const envBase = (
+      process.env.PUBLIC_BASE_URL ||
+      process.env.VITE_PUBLIC_BASE_URL ||
+      process.env.BASE_URL ||
+      'https://16w1ht27-3001.inc1.devtunnels.ms'
+    ).trim().replace(/\/+$/, '');
+
+    const publicPdfUrl = `${envBase}/uploads/quotations/quotation-${cleanId}.pdf`;
+    const formattedAmount = Number(quotation.grandTotal || 0).toLocaleString('en-IN');
+
+    // 4. Construct accompanying caption message
+    const captionText = `VIJAI EMBROIDERY GROUPS
+
+Your quotation is ready.
+
+Quotation No: ${cleanId}
+Amount: Rs. ${formattedAmount}
+
+Please find your quotation attached.
+
+Thank you.`;
+
+    // 5. Read WhatsApp Cloud API Environment Variables
+    const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+    const apiVersion = process.env.WHATSAPP_API_VERSION || 'v21.0';
+
+    if (!accessToken || !phoneNumberId || accessToken === 'YOUR_REAL_TOKEN' || phoneNumberId === 'YOUR_REAL_PHONE_NUMBER_ID') {
+      return res.status(400).json({
+        success: false,
+        message: 'WhatsApp Cloud API credentials (WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID) are not configured in server environment (.env).',
+        publicPdfUrl,
+        pdfPath
+      });
+    }
+
+    // 6. Send PDF document through WhatsApp Cloud API
+    const metaApiUrl = `https://graph.facebook.com/${apiVersion}/${phoneNumberId}/messages`;
+    const metaPayload = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: targetPhone,
+      type: 'document',
+      document: {
+        link: publicPdfUrl,
+        caption: captionText,
+        filename: `quotation-${cleanId}.pdf`
+      }
+    };
+
+    console.log(`[Sending WhatsApp Document to ${targetPhone}]:`, publicPdfUrl);
+
+    try {
+      const metaRes = await axios.post(metaApiUrl, metaPayload, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 25000
+      });
+
+      // 7. Only after successful WhatsApp response mark quotation as SENT
       quotation.status = 'SENT';
       quotation.sentAt = new Date().toISOString();
       quotation.updatedAt = new Date().toISOString();
+
+      store.quotations = quotations;
+      saveData(store);
+
+      return res.status(200).json({
+        success: true,
+        message: `Quotation #${cleanId} PDF sent to customer via WhatsApp successfully.`,
+        quotation: quotation,
+        whatsappResponse: metaRes.data,
+        publicPdfUrl
+      });
+    } catch (metaErr) {
+      console.error('[WhatsApp Cloud API Error]:', metaErr.response?.data || metaErr.message);
+      const safeErrorMsg = 
+        metaErr.response?.data?.error?.message || 
+        metaErr.response?.data?.message || 
+        metaErr.message || 
+        'Failed to deliver document message through WhatsApp Cloud API.';
+
+      // Keep quotation status unchanged on failure
+      return res.status(metaErr.response?.status || 500).json({
+        success: false,
+        message: `WhatsApp Delivery Failed: ${safeErrorMsg}`,
+        details: metaErr.response?.data?.error || null,
+        publicPdfUrl
+      });
     }
-
-    try {
-      generateQuotationPdf(quotation);
-    } catch (pdfErr) {
-      console.error('[Generate PDF Error in send-whatsapp]:', pdfErr);
-    }
-
-    store.quotations = quotations;
-    saveData(store);
-
-    return res.status(200).json({
-      success: true,
-      message: 'Quotation marked as SENT successfully',
-      quotation: quotation
-    });
   } catch (err) {
+    console.error('[Send WhatsApp Handler Error]:', err);
     return res.status(500).json({ success: false, message: err.message });
   }
 });

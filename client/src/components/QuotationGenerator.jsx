@@ -327,17 +327,17 @@ export default function QuotationGenerator({ onNavigate }) {
     return dateStr;
   };
 
-  // Helper to build public quotation URL without sending localhost or relative URLs
+  // Helper to build public quotation URL using FRONTEND_PUBLIC_URL
   const getPublicQuotationUrl = (qNo) => {
-    const envBase = (
-      import.meta.env.PUBLIC_BASE_URL ||
-      import.meta.env.VITE_PUBLIC_BASE_URL ||
-      import.meta.env.VITE_BASE_URL ||
+    const frontendBase = (
+      import.meta.env.FRONTEND_PUBLIC_URL ||
+      import.meta.env.VITE_FRONTEND_PUBLIC_URL ||
+      import.meta.env.PUBLIC_FRONTEND_URL ||
       ''
     ).trim().replace(/\/+$/, '');
 
-    if (envBase && !envBase.includes('localhost') && !envBase.includes('127.0.0.1')) {
-      return `${envBase}/quotation/${encodeURIComponent(qNo)}`;
+    if (frontendBase && !frontendBase.includes('localhost') && !frontendBase.includes('127.0.0.1')) {
+      return `${frontendBase}/quotation/${encodeURIComponent(qNo)}`;
     }
 
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
@@ -347,12 +347,16 @@ export default function QuotationGenerator({ onNavigate }) {
       return `${origin.replace(/\/+$/, '')}/quotation/${encodeURIComponent(qNo)}`;
     }
 
-    return `https://16w1ht27-3001.inc1.devtunnels.ms/quotation/${encodeURIComponent(qNo)}`;
+    if (frontendBase) {
+      return `${frontendBase}/quotation/${encodeURIComponent(qNo)}`;
+    }
+
+    return origin ? `${origin.replace(/\/+$/, '')}/quotation/${encodeURIComponent(qNo)}` : `/quotation/${encodeURIComponent(qNo)}`;
   };
 
   const [isSendingWhatsApp, setIsSendingWhatsApp] = useState(false);
 
-  // 5. SEND TO CUSTOMER: Open WhatsApp directly with prefilled plain-text quotation message & link
+  // 5. SEND TO CUSTOMER: Open WhatsApp directly with prefilled quotation message & view/download link
   const handleSendToCustomer = async (targetQNo) => {
     const qNumber = targetQNo || quotationNo;
     if (!qNumber) return;
@@ -366,8 +370,7 @@ export default function QuotationGenerator({ onNavigate }) {
       const targetPhoneRaw = targetQ.customer?.phone || (qNumber === quotationNo ? customer.phone : '');
       const targetAmount = targetQ.grandTotal !== undefined ? targetQ.grandTotal : grandTotal;
 
-      const rawPhone = String(targetPhoneRaw || '').replace(/[^0-9]/g, '');
-      let targetPhone = rawPhone;
+      let targetPhone = String(targetPhoneRaw || '').replace(/[^0-9]/g, '');
       if (targetPhone.length === 10) {
         targetPhone = '91' + targetPhone;
       }
@@ -392,11 +395,12 @@ Amount: Rs. ${formattedAmount}
 View your quotation:
 ${quotationURL}
 
-Thank you.`;
+Thank you,
+Vijai Embroidery Groups`;
 
       const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(messageText)}`;
 
-      // Open WhatsApp with prefilled message
+      // Open WhatsApp Web / App with prefilled message
       window.open(whatsappUrl, '_blank');
 
       // Update quotation status to SENT on backend
@@ -425,7 +429,7 @@ Thank you.`;
       fetchQuotations();
     } catch (err) {
       console.error('Send to customer error:', err);
-      alert(err.message || 'Failed to open WhatsApp');
+      alert(err.message || 'Failed to open WhatsApp.');
     } finally {
       setIsSendingWhatsApp(false);
     }

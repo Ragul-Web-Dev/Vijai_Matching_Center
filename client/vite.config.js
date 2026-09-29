@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  envPrefix: ['VITE_', 'PUBLIC_'],
+  envPrefix: ['VITE_', 'PUBLIC_', 'FRONTEND_', 'BACKEND_'],
   server: {
     port: 3000,
     proxy: {
