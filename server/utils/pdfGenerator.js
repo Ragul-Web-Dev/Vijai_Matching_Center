@@ -117,50 +117,66 @@ export async function generateQuotationPdf(quotation, force = false) {
       );
     }
 
-    // 6. Cleanly apply print formatting to capture only the exact rendered quotation
+    // 6. Cleanly apply print formatting to isolate only the exact rendered quotation
     await page.addStyleTag({
       content: `
         @page {
-          size: A4;
+          size: A4 portrait;
           margin: 0;
+        }
+        *, *::before, *::after {
+          box-sizing: border-box !important;
         }
         body, html {
           background: #ffffff !important;
           margin: 0 !important;
           padding: 0 !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
         }
-        .print\\:hidden {
+        header, main, footer, .print\\:hidden {
           display: none !important;
         }
         .fixed.inset-0 {
           position: static !important;
           background: #ffffff !important;
-          padding: 20px !important;
+          padding: 16px !important;
+          margin: 0 !important;
           min-height: auto !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: flex-start !important;
+          overflow: visible !important;
         }
         #quotation-print-area {
           margin: 0 auto !important;
           box-shadow: none !important;
           border: 1px solid #cbd5e1 !important;
           border-radius: 16px !important;
+          width: 100% !important;
           max-width: 794px !important;
+          min-height: auto !important;
           background: #ffffff !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
         }
       `
     });
 
-    // Small delay to allow any layout reflow
-    await new Promise(resolve => setTimeout(resolve, 300));
+    // Small delay to allow layout reflow and font stabilization
+    await new Promise(resolve => setTimeout(resolve, 400));
 
-    // 7. Capture exact A4 PDF with background graphics
+    // 7. Capture exact A4 PDF with background graphics and zero margin offset
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
+      preferCSSPageSize: true,
       margin: {
-        top: '10mm',
-        right: '10mm',
-        bottom: '10mm',
-        left: '10mm'
+        top: '6mm',
+        right: '6mm',
+        bottom: '6mm',
+        left: '6mm'
       }
     });
 
